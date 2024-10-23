@@ -21,7 +21,6 @@ class Solution {
     // Binary Search function within a specific range
     public static int BS(int[] nums) {
         int start=0,end= nums.length-1;
-        int target=Integer.MIN_VALUE;
         while (start < end) {
 
             int mid = start + (end - start) / 2;
