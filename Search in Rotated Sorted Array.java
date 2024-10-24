@@ -11,44 +11,59 @@
 
 class Solution {
     public int search(int[] nums, int target) {
-        int a = Pivot(nums);
-        int res = 0;
-        res = BS(nums, target, 0, a-1);
+              int pivot=Pivot(nums);
 
-        if (res != -1) {
-            return res; // Found in the left side
+        if (pivot == -1) {
+            
+            return BS(nums, target, 0 , nums.length - 1);
         }
-        return BS(nums, target, a, nums.length - 1);
+
+        if (nums[pivot] == target) {
+            return pivot;
+        }
+
+        if (target >= nums[0]) {
+            return BS(nums, target, 0, pivot - 1);
+        }
+
+        return BS(nums, target, pivot + 1, nums.length - 1);
 
     }
-        public static int Pivot(int[] nums) {
-        int start = 0, end = nums.length - 1;
-
-        while (start < end) {
-            int mid = start + (end - start) / 2;
-
-            if (nums[mid] > nums[end]) {
-                start = mid + 1;
-            } else {
-                end = mid;
-            }
-        }
-        return start;
-    }
-
-    // Binary Search function within a specific range in ascending order
-    public static int BS(int[] nums, int target, int start, int end) {
+        public static int Pivot(int[] arr) {
+         int start = 0;
+        int end = arr.length - 1;
         while (start <= end) {
-            int mid = start + (end - start) / 2; // Calculate mid index
-
-            if (nums[mid] == target) {
-                return mid; // Target found
-            } else if (nums[mid] < target) {
-                start = mid + 1; // Move to the right half
+            int mid = start + (end - start) / 2;
+            // 4 cases over here
+            if (mid < end && arr[mid] > arr[mid + 1]) {
+                return mid;
+            }
+            if (mid > start && arr[mid] < arr[mid - 1]) {
+                return mid-1;
+            }
+            if (arr[mid] <= arr[start]) {
+                end = mid - 1;
             } else {
-                end = mid - 1; // Move to the left half
+                start = mid + 1;
             }
         }
         return -1;
     }
+
+    // Binary Search function within a specific range in ascending order
+    public static int BS(int[] arr, int target, int start, int end) {
+         while(start <= end) {
+            int mid = start + (end - start) / 2;
+
+            if (target < arr[mid]) {
+                end = mid - 1;
+            } else if (target > arr[mid]) {
+                start = mid + 1;
+            } else {
+                // ans found
+                return mid;
+            }
+        }
+        return -1;
+}
 }
