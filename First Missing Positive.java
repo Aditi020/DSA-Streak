@@ -10,29 +10,32 @@
 // Output: 1
 
 class Solution {
-    public int firstMissingPositive(int[] nums) {
-        int n = nums.length;
-
-        for(int i=0; i<n; i++) {
-            if(nums[i] < 0) nums[i] = n+2;
-            // else if(nums[i] >= n) nums[i] = n+1;
-            else if(nums[i] == 0) nums[i] = n+3;
+    public int firstMissingPositive(int[] arr) {
+     int i = 0; int[] a=new int[arr.length];
+        while (i < arr.length) {
+            int correct = arr[i] - 1;
+            if (arr[i] > 0 && arr[i] <= arr.length && arr[i] != arr[correct]) {
+                swap(arr, i , correct);
+            } else {
+                i++;
+            }
         }
 
-        for(int i=0; i<n; i++) {
-            int val = Math.abs(nums[i]);
-            if(val > n) continue;
-
-            if(nums[val-1] > 0) nums[val-1] *= -1;
+        // search for first missing number
+        for (int index = 0; index < arr.length; index++) {
+            if (arr[index] != index + 1) {
+                return index + 1;
+            }
         }
 
-        int ans = 1;
+        // case 2
+        return arr.length + 1;
+    }
 
-        for(int i=0; i<n; i++) {
-            if(nums[i] > 0) break;
-            else ans++;
-        }
+    static void swap(int[] arr, int first, int second) {
+        int temp = arr[first];
+        arr[first] = arr[second];
+        arr[second] = temp;
 
-        return ans;
     }
 }
