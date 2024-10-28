@@ -24,22 +24,30 @@ class GFG {
         }
     }
 }
+import java.util.Arrays;
+
 class Solution {
-    public String longestCommonPrefix(String arr[]) {
-        // code here
-      if (arr == null || arr.length == 0) {
-            return "-1";
+    public String longestCommonPrefix(String[] strs) {
+        if (strs == null || strs.length == 0) {
+            return "";
         }
-        Arrays.sort(arr);
-        String first = arr[0];
-        String last = arr[arr.length - 1];
+
+        Arrays.sort(strs);
+        String first = strs[0];
+        String last = strs[strs.length - 1];
+        
+        StringBuilder commonPrefix = new StringBuilder();
+        
         int i = 0;
-        for (; i < first.length() && i < last.length(); i++) {
+        while (i < first.length() && i < last.length()) {
             if (first.charAt(i) != last.charAt(i)) {
-                break;
+                break; // Stop at the first mismatch
             }
+            commonPrefix.append(first.charAt(i)); // Append matching character
+            i++;
         }
-        String commonPrefix = first.substring(0, i);
-        return commonPrefix.isEmpty() ? "-1" : commonPrefix;
+        
+        return commonPrefix.toString();
     }
 }
+
